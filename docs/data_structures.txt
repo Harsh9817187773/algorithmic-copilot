@@ -1,0 +1,51 @@
+// Skew Heap Implementation Reference
+// Useful for fast mergeable priority queues in competitive programming
+
+struct Node {
+    int val;
+    Node* left;
+    Node* right;
+    
+    Node(int v) : val(v), left(nullptr), right(nullptr) {}
+};
+
+class SkewHeap {
+public:
+    Node* root;
+
+    SkewHeap() : root(nullptr) {}
+
+    // Core operation: Amortized O(log N) merge
+    Node* merge(Node* h1, Node* h2) {
+        if (!h1) return h2;
+        if (!h2) return h1;
+        
+        // Maintain max-heap property (swap < to > for min-heap)
+        if (h1->val < h2->val) {
+            std::swap(h1, h2);
+        }
+        
+        // Unconditionally swap children and merge recursively
+        Node* temp = h1->right;
+        h1->right = h1->left;
+        h1->left = merge(temp, h2);
+        
+        return h1;
+    }
+
+    void push(int val) {
+        Node* newNode = new Node(val);
+        root = merge(root, newNode);
+    }
+
+    void pop() {
+        if (!root) return;
+        Node* temp = root;
+        root = merge(root->left, root->right);
+        delete temp;
+    }
+
+    int top() {
+        return root ? root->val : -1;
+    }
+};
