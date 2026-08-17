@@ -24,8 +24,8 @@ def search_algorithm_docs(query: str) -> str:
     docs = vector_db.similarity_search(query, k=2)
     return "\n---\n".join([d.page_content for d in docs])
 
-# 3. Swap the LLM Engine to Llama-3 running on Groq hardware
-llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.2)
+# 3.supported model on Groq hardware
+llm = ChatGroq(model="qwen3.6-27b", temperature=0.2)
 
 # 4. Consolidate the Agent's Tool Belt
 tools = [search_algorithm_docs, execute_cpp_code]
