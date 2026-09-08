@@ -24,7 +24,7 @@ def search_algorithm_docs(query: str) -> str:
     docs = vector_db.similarity_search(query, k=2)
     return "\n---\n".join([d.page_content for d in docs])
 
-llm = ChatGroq(model="qwen/qwen3.8-27b", temperature=0.2)
+llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0.2)
 
 # 4. Consolidate the Agent's Tool Belt
 tools = [search_algorithm_docs, execute_cpp_code]
